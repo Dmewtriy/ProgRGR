@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             menuStrip1 = new MenuStrip();
             File = new ToolStripMenuItem();
             OpenFile = new ToolStripMenuItem();
@@ -40,7 +41,26 @@
             Help = new ToolStripMenuItem();
             Content = new ToolStripMenuItem();
             About = new ToolStripMenuItem();
+            dataGridView1 = new DataGridView();
+            Offset = new DataGridViewTextBoxColumn();
+            value0 = new DataGridViewTextBoxColumn();
+            value1 = new DataGridViewTextBoxColumn();
+            value2 = new DataGridViewTextBoxColumn();
+            valeu3 = new DataGridViewTextBoxColumn();
+            value4 = new DataGridViewTextBoxColumn();
+            value5 = new DataGridViewTextBoxColumn();
+            value6 = new DataGridViewTextBoxColumn();
+            value7 = new DataGridViewTextBoxColumn();
+            value8 = new DataGridViewTextBoxColumn();
+            value9 = new DataGridViewTextBoxColumn();
+            valueA = new DataGridViewTextBoxColumn();
+            valueB = new DataGridViewTextBoxColumn();
+            valueC = new DataGridViewTextBoxColumn();
+            valueD = new DataGridViewTextBoxColumn();
+            valueE = new DataGridViewTextBoxColumn();
+            valueF = new DataGridViewTextBoxColumn();
             menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -102,14 +122,19 @@
             Find.Name = "Find";
             Find.Size = new Size(77, 29);
             Find.Text = "Найти";
+            Find.DropDownClosed += Find_DropDownClosed;
             Find.Click += Find_Click;
             // 
             // StringFindTextBox
             // 
+            StringFindTextBox.AutoToolTip = true;
             StringFindTextBox.BorderStyle = BorderStyle.FixedSingle;
             StringFindTextBox.MaxLength = 10;
             StringFindTextBox.Name = "StringFindTextBox";
             StringFindTextBox.Size = new Size(100, 23);
+            StringFindTextBox.Text = "Ctrl+F";
+            StringFindTextBox.ToolTipText = "\r\n";
+            StringFindTextBox.Click += StringFindTextBox_Click;
             // 
             // Help
             // 
@@ -130,17 +155,201 @@
             About.Size = new Size(200, 30);
             About.Text = "О программе";
             // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AllowUserToResizeColumns = false;
+            dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = SystemColors.Control;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Offset, value0, value1, value2, valeu3, value4, value5, value6, value7, value8, value9, valueA, valueB, valueC, valueD, valueE, valueF });
+            dataGridView1.Location = new Point(12, 36);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridView1.RowHeadersVisible = false;
+            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.RowTemplate.ReadOnly = true;
+            dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
+            dataGridView1.Size = new Size(1103, 574);
+            dataGridView1.TabIndex = 1;
+            // 
+            // Offset
+            // 
+            Offset.HeaderText = "Адрес";
+            Offset.Name = "Offset";
+            Offset.ReadOnly = true;
+            Offset.Resizable = DataGridViewTriState.False;
+            Offset.SortMode = DataGridViewColumnSortMode.NotSortable;
+            Offset.Width = 120;
+            // 
+            // value0
+            // 
+            value0.HeaderText = "00";
+            value0.Name = "value0";
+            value0.ReadOnly = true;
+            value0.Resizable = DataGridViewTriState.False;
+            value0.SortMode = DataGridViewColumnSortMode.NotSortable;
+            value0.Width = 30;
+            // 
+            // value1
+            // 
+            value1.HeaderText = "01";
+            value1.Name = "value1";
+            value1.ReadOnly = true;
+            value1.Resizable = DataGridViewTriState.False;
+            value1.SortMode = DataGridViewColumnSortMode.NotSortable;
+            value1.Width = 30;
+            // 
+            // value2
+            // 
+            value2.HeaderText = "02";
+            value2.Name = "value2";
+            value2.ReadOnly = true;
+            value2.Resizable = DataGridViewTriState.False;
+            value2.SortMode = DataGridViewColumnSortMode.NotSortable;
+            value2.Width = 30;
+            // 
+            // valeu3
+            // 
+            valeu3.HeaderText = "03";
+            valeu3.Name = "valeu3";
+            valeu3.ReadOnly = true;
+            valeu3.Resizable = DataGridViewTriState.False;
+            valeu3.SortMode = DataGridViewColumnSortMode.NotSortable;
+            valeu3.Width = 30;
+            // 
+            // value4
+            // 
+            value4.HeaderText = "04";
+            value4.Name = "value4";
+            value4.ReadOnly = true;
+            value4.Resizable = DataGridViewTriState.False;
+            value4.SortMode = DataGridViewColumnSortMode.NotSortable;
+            value4.Width = 30;
+            // 
+            // value5
+            // 
+            value5.HeaderText = "05";
+            value5.Name = "value5";
+            value5.ReadOnly = true;
+            value5.Resizable = DataGridViewTriState.False;
+            value5.SortMode = DataGridViewColumnSortMode.NotSortable;
+            value5.Width = 30;
+            // 
+            // value6
+            // 
+            value6.HeaderText = "06";
+            value6.Name = "value6";
+            value6.ReadOnly = true;
+            value6.Resizable = DataGridViewTriState.False;
+            value6.SortMode = DataGridViewColumnSortMode.NotSortable;
+            value6.Width = 30;
+            // 
+            // value7
+            // 
+            value7.HeaderText = "07";
+            value7.Name = "value7";
+            value7.ReadOnly = true;
+            value7.Resizable = DataGridViewTriState.False;
+            value7.SortMode = DataGridViewColumnSortMode.NotSortable;
+            value7.Width = 30;
+            // 
+            // value8
+            // 
+            value8.HeaderText = "08";
+            value8.Name = "value8";
+            value8.ReadOnly = true;
+            value8.Resizable = DataGridViewTriState.False;
+            value8.SortMode = DataGridViewColumnSortMode.NotSortable;
+            value8.Width = 30;
+            // 
+            // value9
+            // 
+            value9.HeaderText = "09";
+            value9.Name = "value9";
+            value9.ReadOnly = true;
+            value9.Resizable = DataGridViewTriState.False;
+            value9.SortMode = DataGridViewColumnSortMode.NotSortable;
+            value9.Width = 30;
+            // 
+            // valueA
+            // 
+            valueA.HeaderText = "0A";
+            valueA.Name = "valueA";
+            valueA.ReadOnly = true;
+            valueA.Resizable = DataGridViewTriState.False;
+            valueA.SortMode = DataGridViewColumnSortMode.NotSortable;
+            valueA.Width = 30;
+            // 
+            // valueB
+            // 
+            valueB.HeaderText = "0B";
+            valueB.Name = "valueB";
+            valueB.ReadOnly = true;
+            valueB.Resizable = DataGridViewTriState.False;
+            valueB.SortMode = DataGridViewColumnSortMode.NotSortable;
+            valueB.Width = 30;
+            // 
+            // valueC
+            // 
+            valueC.HeaderText = "0C";
+            valueC.Name = "valueC";
+            valueC.ReadOnly = true;
+            valueC.Resizable = DataGridViewTriState.False;
+            valueC.SortMode = DataGridViewColumnSortMode.NotSortable;
+            valueC.Width = 30;
+            // 
+            // valueD
+            // 
+            valueD.HeaderText = "0D";
+            valueD.Name = "valueD";
+            valueD.ReadOnly = true;
+            valueD.Resizable = DataGridViewTriState.False;
+            valueD.SortMode = DataGridViewColumnSortMode.NotSortable;
+            valueD.Width = 30;
+            // 
+            // valueE
+            // 
+            valueE.HeaderText = "0E";
+            valueE.Name = "valueE";
+            valueE.ReadOnly = true;
+            valueE.Resizable = DataGridViewTriState.False;
+            valueE.SortMode = DataGridViewColumnSortMode.NotSortable;
+            valueE.Width = 30;
+            // 
+            // valueF
+            // 
+            valueF.HeaderText = "0F";
+            valueF.Name = "valueF";
+            valueF.ReadOnly = true;
+            valueF.Resizable = DataGridViewTriState.False;
+            valueF.SortMode = DataGridViewColumnSortMode.NotSortable;
+            valueF.Width = 30;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1196, 622);
+            Controls.Add(dataGridView1);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Двоичный просмотрщик файлов";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -160,6 +369,30 @@
                 Find.PerformClick();
                 e.Handled = true; // Помечаем событие как обработанное
             }
+            // Сдвиг изображения на одну строку
+            if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
+            {
+
+                e.Handled = true;
+            }
+            // Сдвиг изображения на одну страницу
+            if (e.KeyCode == Keys.PageDown || e.KeyCode == Keys.PageUp)
+            {
+
+                e.Handled = true;
+            }
+            // Отображение первой страницы
+            if (e.KeyCode == Keys.Home)
+            {
+
+                e.Handled = true;
+            }
+            // Отображение последней страницы
+            if (e.KeyCode == Keys.End)
+            {
+
+                e.Handled = true;
+            }
         }
 
         #endregion
@@ -176,5 +409,23 @@
         private ToolStripMenuItem Help;
         private ToolStripMenuItem Content;
         private ToolStripMenuItem About;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn Offset;
+        private DataGridViewTextBoxColumn value0;
+        private DataGridViewTextBoxColumn value1;
+        private DataGridViewTextBoxColumn value2;
+        private DataGridViewTextBoxColumn valeu3;
+        private DataGridViewTextBoxColumn value4;
+        private DataGridViewTextBoxColumn value5;
+        private DataGridViewTextBoxColumn value6;
+        private DataGridViewTextBoxColumn value7;
+        private DataGridViewTextBoxColumn value8;
+        private DataGridViewTextBoxColumn value9;
+        private DataGridViewTextBoxColumn valueA;
+        private DataGridViewTextBoxColumn valueB;
+        private DataGridViewTextBoxColumn valueC;
+        private DataGridViewTextBoxColumn valueD;
+        private DataGridViewTextBoxColumn valueE;
+        private DataGridViewTextBoxColumn valueF;
     }
 }

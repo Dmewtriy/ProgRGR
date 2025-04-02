@@ -15,8 +15,19 @@ namespace ProgRGR
 
         private void Find_Click(object sender, EventArgs e)
         {
+            StringFindTextBox.Text = string.Empty;
             Find.ShowDropDown();
             StringFindTextBox.Focus();
+        }
+
+        private void Find_DropDownClosed(object sender, EventArgs e)
+        {
+            StringFindTextBox.Text = "Ctrl+F";
+        }
+
+        private void StringFindTextBox_Click(object sender, EventArgs e)
+        {
+            StringFindTextBox.Text = string.Empty;
         }
     }
 }
