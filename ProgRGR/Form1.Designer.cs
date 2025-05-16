@@ -94,6 +94,7 @@
             Exit.ShortcutKeys = Keys.Control | Keys.Q;
             Exit.Size = new Size(226, 30);
             Exit.Text = "Выход";
+            Exit.Click += FormClose;
             // 
             // View
             // 
@@ -367,6 +368,11 @@
             if (e.Control && e.KeyCode == Keys.F)
             {
                 Find.PerformClick();
+                e.Handled = true; // Помечаем событие как обработанное
+            }
+            if (e.Control && e.KeyCode == Keys.Q)
+            {
+                this.Close();
                 e.Handled = true; // Помечаем событие как обработанное
             }
             // Сдвиг изображения на одну строку
