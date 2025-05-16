@@ -10,7 +10,17 @@ namespace ProgRGR
 
         private void OpenFile_Click(object sender, EventArgs e)
         {
-            // открытие файла
+            var filePath = string.Empty;
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.InitialDirectory = "c:\\";
+                openFileDialog.RestoreDirectory = false;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    filePath = openFileDialog.FileName;
+                }
+            }
         }
 
         private void Find_Click(object sender, EventArgs e)
