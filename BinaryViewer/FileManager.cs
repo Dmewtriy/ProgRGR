@@ -48,12 +48,16 @@ namespace BinaryViewer
 
         private void ReadAndPushToBuffer(long index)
         {
+            if (reader == null || reader.CanRead == false)
+            {
+                throw new Exception("Файл не открыт");
+            }
             if (size * index < reader.Length)
             {
                 byte[] data = new byte[size];
 
-                Reader.Seek(index * size, SeekOrigin.Begin);
-                Reader.Read(data, 0, size);
+                reader.Seek(index * size, SeekOrigin.Begin);
+                reader.Read(data, 0, size);
 
                 Page page = new Page(data, index);
                 buffer.Add(page);
@@ -63,8 +67,8 @@ namespace BinaryViewer
                 int tempSize = (int) reader.Length % size;
                 byte[] data = new byte[tempSize];
 
-                Reader.Seek(index * size, SeekOrigin.Begin);
-                Reader.Read(data, 0, tempSize);
+                reader.Seek(index * size, SeekOrigin.Begin);
+                reader.Read(data, 0, tempSize);
 
                 Page page = new Page(data, index);
                 buffer.Add(page);
@@ -74,22 +78,10 @@ namespace BinaryViewer
 
         public void CloseFile()
         {
-            Reader.Close();
-            reader = null;
-        }
-
-        private FileStream Reader
-        {
-            get 
+            if (reader != null)
             {
-                if (reader == null || reader.CanRead == false) 
-                {
-                    throw new Exception("Файл не открыт");
-                }
-
-                return reader; 
+                reader.Close();
             }
         }
-
     }
 }
