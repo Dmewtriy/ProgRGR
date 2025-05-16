@@ -40,14 +40,7 @@ namespace BinaryViewer
             }
             else
             {
-                if (size * lastPage.Index + 1 < reader.Length)
-                {
-                    ReadAndPushToBuffer(lastPage.Index + 1);
-                }
-                else
-                {
-
-                }
+                ReadAndPushToBuffer(lastPage.Index + 1);
             }
 
             return buffer.Last().Data;
