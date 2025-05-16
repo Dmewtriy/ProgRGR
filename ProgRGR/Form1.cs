@@ -115,8 +115,11 @@ namespace ProgRGR
                 if (scrollPercentage > 70)
                 {
                     string[] data = _fileController.GetDataHex();
+                    if (data.Length != 0)
+                    {
+                        DisplayData(data);
+                    }
 
-                    DisplayData(data);
                 }
             }
         }

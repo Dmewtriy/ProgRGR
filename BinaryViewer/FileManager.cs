@@ -29,7 +29,7 @@ namespace BinaryViewer
 
         public byte[] GetNewPage() 
         {
-
+            int lastLen = buffer.Count;
             if (buffer.Count == 0)
             {
                 ReadAndPushToBuffer(0);
@@ -38,9 +38,13 @@ namespace BinaryViewer
             {
                 Page lastPage = buffer.Last();
                 ReadAndPushToBuffer(lastPage.Index + 1);
-            }
 
-            return buffer.Last().Data;
+            }
+            if (lastLen != buffer.Count)
+            {
+                return buffer.Last().Data;
+            }
+            return new byte[] { };
         }
 
         private void ReadAndPushToBuffer(long index)
@@ -59,7 +63,7 @@ namespace BinaryViewer
                 Page page = new Page(data, index);
                 buffer.Add(page);
             }
-            else
+            else if (size * index <= reader.Length)
             {
                 int tempSize = (int)reader.Length % size;
                 byte[] data = new byte[tempSize];
@@ -70,7 +74,6 @@ namespace BinaryViewer
                 Page page = new Page(data, index);
                 buffer.Add(page);
             }
-
         }
 
         public void CloseFile()
