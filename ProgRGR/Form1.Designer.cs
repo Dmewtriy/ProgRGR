@@ -1,4 +1,6 @@
-﻿namespace ProgRGR
+﻿using System.Windows.Forms;
+
+namespace ProgRGR
 {
     partial class Form1
     {
@@ -370,35 +372,51 @@
             if (e.Control && e.KeyCode == Keys.F)
             {
                 Find.PerformClick();
-                e.Handled = true; // Помечаем событие как обработанное
+                e.Handled = true;
             }
             if (e.Control && e.KeyCode == Keys.Q)
             {
                 this.Close();
-                e.Handled = true; // Помечаем событие как обработанное
+                e.Handled = true;
             }
             // Сдвиг изображения на одну строку
-            if (e.KeyCode == Keys.Down || e.KeyCode == Keys.Up)
+            if (e.KeyCode == Keys.Down)
             {
-
+                if (dataGridView1.FirstDisplayedScrollingRowIndex < dataGridView1.RowCount && dataGridView1.Rows.Count != 0)
+                    dataGridView1.FirstDisplayedScrollingRowIndex++;
+                e.Handled = true;
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                if (dataGridView1.FirstDisplayedScrollingRowIndex > 0 && dataGridView1.Rows.Count != 0)
+                    dataGridView1.FirstDisplayedScrollingRowIndex--;
                 e.Handled = true;
             }
             // Сдвиг изображения на одну страницу
-            if (e.KeyCode == Keys.PageDown || e.KeyCode == Keys.PageUp)
+            if (e.KeyCode == Keys.PageDown)
             {
-
+                if (dataGridView1.FirstDisplayedScrollingRowIndex + 61 < dataGridView1.RowCount && dataGridView1.Rows.Count != 0)
+                    dataGridView1.FirstDisplayedScrollingRowIndex+=62;
+                e.Handled = true;
+            }
+            if (e.KeyCode == Keys.PageUp)
+            {
+                if (dataGridView1.FirstDisplayedScrollingRowIndex - 61 > 0 && dataGridView1.Rows.Count != 0)
+                    dataGridView1.FirstDisplayedScrollingRowIndex-=62;
                 e.Handled = true;
             }
             // Отображение первой страницы
             if (e.KeyCode == Keys.Home)
             {
-
+                if (dataGridView1.Rows.Count != 0)
+                    dataGridView1.FirstDisplayedScrollingRowIndex = 0;
                 e.Handled = true;
             }
             // Отображение последней страницы
             if (e.KeyCode == Keys.End)
             {
-
+                if (dataGridView1.Rows.Count != 0)
+                    dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount-1;
                 e.Handled = true;
             }
         }
