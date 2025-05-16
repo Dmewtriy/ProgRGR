@@ -2,25 +2,17 @@ namespace ProgRGR
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        private readonly FormController _controller;
+        public Form1(FormController controller)
         {
             InitializeComponent();
             InitializeHotkeys();
+            _controller = controller;
         }
 
         private void OpenFile_Click(object sender, EventArgs e)
         {
-            var filePath = string.Empty;
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.InitialDirectory = "c:\\";
-                openFileDialog.RestoreDirectory = false;
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    filePath = openFileDialog.FileName;
-                }
-            }
+            var filePath = _controller.OpenFileDialog();
         }
 
         private void Find_Click(object sender, EventArgs e)
