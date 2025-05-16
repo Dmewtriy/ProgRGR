@@ -162,6 +162,7 @@
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeColumns = false;
             dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = SystemColors.Control;
@@ -192,7 +193,7 @@
             Offset.ReadOnly = true;
             Offset.Resizable = DataGridViewTriState.False;
             Offset.SortMode = DataGridViewColumnSortMode.NotSortable;
-            Offset.Width = 120;
+            Offset.Width = 53;
             // 
             // value0
             // 
@@ -201,7 +202,7 @@
             value0.ReadOnly = true;
             value0.Resizable = DataGridViewTriState.False;
             value0.SortMode = DataGridViewColumnSortMode.NotSortable;
-            value0.Width = 30;
+            value0.Width = 31;
             // 
             // value1
             // 
@@ -210,7 +211,7 @@
             value1.ReadOnly = true;
             value1.Resizable = DataGridViewTriState.False;
             value1.SortMode = DataGridViewColumnSortMode.NotSortable;
-            value1.Width = 30;
+            value1.Width = 31;
             // 
             // value2
             // 
@@ -219,7 +220,7 @@
             value2.ReadOnly = true;
             value2.Resizable = DataGridViewTriState.False;
             value2.SortMode = DataGridViewColumnSortMode.NotSortable;
-            value2.Width = 30;
+            value2.Width = 31;
             // 
             // valeu3
             // 
@@ -228,7 +229,7 @@
             valeu3.ReadOnly = true;
             valeu3.Resizable = DataGridViewTriState.False;
             valeu3.SortMode = DataGridViewColumnSortMode.NotSortable;
-            valeu3.Width = 30;
+            valeu3.Width = 31;
             // 
             // value4
             // 
@@ -237,7 +238,7 @@
             value4.ReadOnly = true;
             value4.Resizable = DataGridViewTriState.False;
             value4.SortMode = DataGridViewColumnSortMode.NotSortable;
-            value4.Width = 30;
+            value4.Width = 31;
             // 
             // value5
             // 
@@ -246,7 +247,7 @@
             value5.ReadOnly = true;
             value5.Resizable = DataGridViewTriState.False;
             value5.SortMode = DataGridViewColumnSortMode.NotSortable;
-            value5.Width = 30;
+            value5.Width = 31;
             // 
             // value6
             // 
@@ -255,7 +256,7 @@
             value6.ReadOnly = true;
             value6.Resizable = DataGridViewTriState.False;
             value6.SortMode = DataGridViewColumnSortMode.NotSortable;
-            value6.Width = 30;
+            value6.Width = 31;
             // 
             // value7
             // 
@@ -264,7 +265,7 @@
             value7.ReadOnly = true;
             value7.Resizable = DataGridViewTriState.False;
             value7.SortMode = DataGridViewColumnSortMode.NotSortable;
-            value7.Width = 30;
+            value7.Width = 31;
             // 
             // value8
             // 
@@ -273,7 +274,7 @@
             value8.ReadOnly = true;
             value8.Resizable = DataGridViewTriState.False;
             value8.SortMode = DataGridViewColumnSortMode.NotSortable;
-            value8.Width = 30;
+            value8.Width = 31;
             // 
             // value9
             // 
@@ -282,7 +283,7 @@
             value9.ReadOnly = true;
             value9.Resizable = DataGridViewTriState.False;
             value9.SortMode = DataGridViewColumnSortMode.NotSortable;
-            value9.Width = 30;
+            value9.Width = 31;
             // 
             // valueA
             // 
@@ -291,7 +292,7 @@
             valueA.ReadOnly = true;
             valueA.Resizable = DataGridViewTriState.False;
             valueA.SortMode = DataGridViewColumnSortMode.NotSortable;
-            valueA.Width = 30;
+            valueA.Width = 32;
             // 
             // valueB
             // 
@@ -300,7 +301,7 @@
             valueB.ReadOnly = true;
             valueB.Resizable = DataGridViewTriState.False;
             valueB.SortMode = DataGridViewColumnSortMode.NotSortable;
-            valueB.Width = 30;
+            valueB.Width = 31;
             // 
             // valueC
             // 
@@ -309,7 +310,7 @@
             valueC.ReadOnly = true;
             valueC.Resizable = DataGridViewTriState.False;
             valueC.SortMode = DataGridViewColumnSortMode.NotSortable;
-            valueC.Width = 30;
+            valueC.Width = 32;
             // 
             // valueD
             // 
@@ -318,7 +319,7 @@
             valueD.ReadOnly = true;
             valueD.Resizable = DataGridViewTriState.False;
             valueD.SortMode = DataGridViewColumnSortMode.NotSortable;
-            valueD.Width = 30;
+            valueD.Width = 33;
             // 
             // valueE
             // 

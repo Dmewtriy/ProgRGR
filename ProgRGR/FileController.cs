@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 
 namespace ProgRGR
 {
-    internal class FileController
+    public class FileController
     {
         private FileManager fileManager; 
 
-        public FileController(string path)
+        public FileController()
         {
             fileManager = new FileManager();
+        }
+
+        public void Open(string path)
+        {
             fileManager.Open(path);
         }
 
@@ -22,6 +26,7 @@ namespace ProgRGR
             byte[] data = fileManager.GetNewPage();
 
             string[] hex = new string[data.Length + (int) Math.Ceiling(data.Length / 16.0)];
+            int counter = 0;
 
             for (int i = 0; i < hex.Length; i++)
             {
@@ -30,7 +35,8 @@ namespace ProgRGR
                     hex[i] = Convert.ToString(i / 17, 16).PadLeft(10, '0').ToUpper() + "0";
                     continue;
                 }
-                hex[i] = Convert.ToString(data[i], 16).PadLeft(2, '0').ToUpper();
+                hex[i] = Convert.ToString(data[counter], 16).PadLeft(2, '0').ToUpper();
+                counter++;
             }
 
             return hex;
@@ -41,6 +47,7 @@ namespace ProgRGR
             byte[] data = fileManager.GetNewPage();
 
             string[] binary = new string[data.Length + (int)Math.Ceiling(data.Length / 16.0)];
+            int counter = 0;
 
             for (int i = 0; i < binary.Length; i++)
             {
@@ -49,7 +56,8 @@ namespace ProgRGR
                     binary[i] = Convert.ToString(i / 17, 16).PadLeft(10, '0').ToUpper() + "0";
                     continue;
                 }
-                binary[i] = Convert.ToString(data[i], 2).PadLeft(8, '0').ToUpper();
+                binary[i] = Convert.ToString(data[counter], 2).PadLeft(8, '0').ToUpper();
+                counter++;
             }
 
             return binary;

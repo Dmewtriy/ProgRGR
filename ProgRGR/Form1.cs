@@ -2,19 +2,25 @@ namespace ProgRGR
 {
     public partial class Form1 : Form
     {
-        private readonly FormController _controller;
+        private readonly FormController _formController;
+        private FileController _fileController;
         public Form1(FormController controller)
         {
             InitializeComponent();
             InitializeHotkeys();
-            _controller = controller;
+            _formController = controller;
+            _fileController = new FileController();
         }
 
         private void OpenFile_Click(object sender, EventArgs e)
         {
-            var filePath = _controller.OpenFileDialog();
+            dataGridView1.Rows.Clear();
+            var filePath = _formController.OpenFileDialog();
+            _fileController.Open(filePath);
+            string[] data = _fileController.GetDataBinary();
+
             int column = 0, index = 0;
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < data.Length; i++)
             {
                 column = i % 17;
                 if (column == 0)
@@ -22,23 +28,17 @@ namespace ProgRGR
                     dataGridView1.Rows.Add();
                 }
                 index = i / 17;
-                var row = dataGridView1.Rows[index];
-                switch (column)
-                {
-                    // номер строки
-                    case 0:
-                        row.Cells[column].Value = index;
-                        break;
-                    default:
-                        row.Cells[column].Value = i; 
-                        break;
-                }
+                dataGridView1.Rows[index].Cells[column].Value = data[i];
             }
         }
 
         private void FormClose(object sender, EventArgs e)
         {
-            Close();
+            DialogResult res = MessageBox.Show("¬ы действительно хотите закрыть приложение?", "¬ыход из приложени€", MessageBoxButtons.YesNo);
+            if (res == DialogResult.Yes)
+            {
+                Close();
+            }
         }
 
         private void Find_Click(object sender, EventArgs e)

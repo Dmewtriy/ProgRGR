@@ -22,24 +22,21 @@ namespace BinaryViewer
 
         public void Open(string path)
         {
-            if (reader != null)
-            {
-                CloseFile();
-            }
+            CloseFile();
             
             reader = new FileStream(path, FileMode.Open, FileAccess.Read);
         }
 
         public byte[] GetNewPage() 
         {
-            Page lastPage = buffer.Last();
 
-            if (lastPage == null)
+            if (buffer.Count == 0)
             {
                 ReadAndPushToBuffer(0);
             }
             else
             {
+                Page lastPage = buffer.Last();
                 ReadAndPushToBuffer(lastPage.Index + 1);
             }
 
@@ -52,7 +49,7 @@ namespace BinaryViewer
             {
                 throw new Exception("Файл не открыт");
             }
-            if (size * index < reader.Length)
+            if (size * (index + 1) < reader.Length)
             {
                 byte[] data = new byte[size];
 
@@ -64,7 +61,7 @@ namespace BinaryViewer
             }
             else
             {
-                int tempSize = (int) reader.Length % size;
+                int tempSize = (int)reader.Length % size;
                 byte[] data = new byte[tempSize];
 
                 reader.Seek(index * size, SeekOrigin.Begin);
@@ -73,7 +70,7 @@ namespace BinaryViewer
                 Page page = new Page(data, index);
                 buffer.Add(page);
             }
-            
+
         }
 
         public void CloseFile()
@@ -81,6 +78,7 @@ namespace BinaryViewer
             if (reader != null)
             {
                 reader.Close();
+                buffer.Clear();
             }
         }
     }
