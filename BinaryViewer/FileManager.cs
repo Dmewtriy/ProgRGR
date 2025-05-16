@@ -40,7 +40,14 @@ namespace BinaryViewer
             }
             else
             {
-                ReadAndPushToBuffer(lastPage.Index + 1);
+                if (size * lastPage.Index + 1 < reader.Length)
+                {
+                    ReadAndPushToBuffer(lastPage.Index + 1);
+                }
+                else
+                {
+
+                }
             }
 
             return buffer.Last().Data;
@@ -48,13 +55,28 @@ namespace BinaryViewer
 
         private void ReadAndPushToBuffer(long index)
         {
-            byte[] data = new byte[size];
+            if (size * index < reader.Length)
+            {
+                byte[] data = new byte[size];
 
-            Reader.Seek(index * size, SeekOrigin.Begin);
-            Reader.Read(data, 0, size);
+                Reader.Seek(index * size, SeekOrigin.Begin);
+                Reader.Read(data, 0, size);
+
+                Page page = new Page(data, index);
+                buffer.Add(page);
+            }
+            else
+            {
+                int tempSize = (int) reader.Length % size;
+                byte[] data = new byte[tempSize];
+
+                Reader.Seek(index * size, SeekOrigin.Begin);
+                Reader.Read(data, 0, tempSize);
+
+                Page page = new Page(data, index);
+                buffer.Add(page);
+            }
             
-            Page page = new Page(data, index);
-            buffer.Add(page);
         }
 
         public void CloseFile()
