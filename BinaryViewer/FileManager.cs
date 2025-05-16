@@ -49,7 +49,7 @@ namespace BinaryViewer
             {
                 throw new Exception("Файл не открыт");
             }
-            if (size * (index + 1) < reader.Length)
+            if (size * (index + 1) <= reader.Length)
             {
                 byte[] data = new byte[size];
 

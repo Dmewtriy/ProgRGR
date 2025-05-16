@@ -185,6 +185,7 @@
             dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
             dataGridView1.Size = new Size(1103, 574);
             dataGridView1.TabIndex = 1;
+            dataGridView1.Scroll += dataGridView1_Scroll;
             // 
             // Offset
             // 
