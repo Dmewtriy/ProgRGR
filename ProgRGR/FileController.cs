@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BinaryViewer
+namespace ProgRGR
 {
-    public class Class1
+    internal class FileController
     {
 
     }
