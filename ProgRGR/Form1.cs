@@ -17,44 +17,70 @@ namespace ProgRGR
             dataGridView1.Rows.Clear();
             var filePath = _formController.OpenFileDialog();
             _fileController.Open(filePath);
-            string[] data = _fileController.GetDataHex();
-
-            int column = 0, index = 0;
-            for (int i = 0; i < data.Length; i++)
-            {
-                column = i % 17;
-                if (column == 0)
-                {
-                    dataGridView1.Rows.Add();
-                }
-                index = i / 17;
-                dataGridView1.Rows[index].Cells[column].Value = data[i];
-            }
+            DisplayData();
         }
 
-        private void DisplayData(string[] data)
+        private void DisplayData()
         {
             int lastRow = dataGridView1.Rows.GetLastRow(DataGridViewElementStates.Visible);
-            var row = dataGridView1.Rows[lastRow];
-            int lastColumnIndex = -1;
-            for (int col = 0; col < dataGridView1.Columns.Count; col++)
+            int lastColumnIndex;
+            if (lastRow == -1)
             {
-                if (row.Cells[col].Value == null)
+                lastColumnIndex = 0;
+                lastRow = 0;
+            }
+            else
+            {
+                var row = dataGridView1.Rows[lastRow];
+                lastColumnIndex = -1;
+                for (int col = 0; col < dataGridView1.Columns.Count; col++)
                 {
-                    lastColumnIndex = col;
-                    break;
+                    if (row.Cells[col].Value == null)
+                    {
+                        lastColumnIndex = col - 1;
+                        break;
+                    }
                 }
             }
-            int column = 0, index = 0;
-            for (int i = 0; i < data.Length; i++)
+            
+
+            List<DataRow> data = _fileController.GetDataHex(lastRow, lastColumnIndex);
+            int currentRow;
+
+            if (data.Count == 0) return;
+
+            foreach (var dataRow in data)
             {
-                column = (lastColumnIndex + i) % 17;
-                if (column == 0)
+
+                currentRow = Convert.ToInt32(dataRow.numberRow.Substring(0, dataRow.numberRow.Length - 1), 16);
+
+                if (currentRow == lastRow)
+                {
+                    if (dataGridView1.Rows.Count == 0)
+                    {
+                        dataGridView1.Rows.Add();
+                    }
+                    dataGridView1.Rows[currentRow].Cells[0].Value = dataRow.numberRow;
+
+                    for (int j = lastColumnIndex; j < 16; j++)
+                    {
+                        dataGridView1.Rows[currentRow].Cells[j + 1].Value = dataRow.data[j - lastColumnIndex];
+                    }
+                }
+                else
                 {
                     dataGridView1.Rows.Add();
+                    dataGridView1.Rows[currentRow].Cells[0].Value = dataRow.numberRow;
+
+                    if (currentRow == data.Count - 1)
+                    {
+                        int l = 0;
+                    }
+                    for (int element = 0; element < dataRow.data.Count; element++)
+                    {
+                        dataGridView1.Rows[currentRow].Cells[element + 1].Value = dataRow.data[element];
+                    }
                 }
-                index = lastRow + i / 17;
-                dataGridView1.Rows[index].Cells[column].Value = data[i];
             }
         }
 
@@ -107,19 +133,25 @@ namespace ProgRGR
             return Math.Round(percentage, 2);
         }
 
+        private bool flag = true;
         private void dataGridView1_Scroll(object sender, ScrollEventArgs e)
         {
             if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
             {
                 double scrollPercentage = GetVerticalScrollPercentage();
-                if (scrollPercentage > 70)
+                if (scrollPercentage > 70 && flag == true)
                 {
-                    string[] data = _fileController.GetDataHex();
-                    if (data.Length != 0)
-                    {
-                        DisplayData(data);
-                    }
+                    int count = dataGridView1.Rows.Count;
+                    DisplayData();
 
+                    if (count == dataGridView1.Rows.Count)
+                    {
+                        flag = false;
+                    }
+                }
+                if (flag == false)
+                {
+                    _fileController.Close();
                 }
             }
         }
