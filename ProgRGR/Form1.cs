@@ -9,40 +9,28 @@ namespace ProgRGR
             InitializeComponent();
             InitializeHotkeys();
             _formController = controller;
-            _fileController = new FileController();
+            _formController.Errors += ShowError;
         }
 
         private void OpenFile_Click(object sender, EventArgs e)
         {
+            if (_formController.OpenFile())
+            {
             dataGridView1.Rows.Clear();
-            var filePath = _formController.OpenFileDialog();
-            _fileController.Open(filePath);
-            DisplayData();
+                DisplayData(_formController.SelectedView);
+                flag = true;
+        }
         }
 
-        private void DisplayData()
+        private void DisplayData(int view)
         {
-            int lastRow = dataGridView1.Rows.GetLastRow(DataGridViewElementStates.Visible);
-            int lastColumnIndex;
-            if (lastRow == -1)
-            {
-                lastColumnIndex = 0;
-                lastRow = 0;
-            }
-            else
-            {
-                var row = dataGridView1.Rows[lastRow];
-                lastColumnIndex = -1;
-                for (int col = 0; col < dataGridView1.Columns.Count; col++)
-                {
-                    if (row.Cells[col].Value == null)
-                    {
-                        lastColumnIndex = col - 1;
-                        break;
-                    }
-                }
-            }
+            (int lastRow, int lastColumnIndex) = GetLastRowAndColumnIndex();
+            List<DataRow> data = _formController.GetData(lastRow, lastColumnIndex, view);
+            string numberRow = Convert.ToString(lastRow, view).PadLeft(10, '0').ToUpper() + "0";
+            if (data.Count == 0)
+                return;
             
+            dataGridView1.SuspendLayout();
 
             List<DataRow> data = _fileController.GetDataHex(lastRow, lastColumnIndex);
             int currentRow;
@@ -52,36 +40,40 @@ namespace ProgRGR
             foreach (var dataRow in data)
             {
 
-                currentRow = Convert.ToInt32(dataRow.numberRow.Substring(0, dataRow.numberRow.Length - 1), 16);
+                // Проверяем, есть ли в DataGridView строка с таким номером
+                bool isExistingRow = dataRow.numberRow == numberRow && lastRow != 0;
+                DataGridViewRow row;
 
-                if (currentRow == lastRow)
+                if (isExistingRow)
                 {
-                    if (dataGridView1.Rows.Count == 0)
-                    {
-                        dataGridView1.Rows.Add();
-                    }
-                    dataGridView1.Rows[currentRow].Cells[0].Value = dataRow.numberRow;
+                    row = dataGridView1.Rows[lastRow];
+                    lastColumnIndex++;
 
-                    for (int j = lastColumnIndex; j < 16; j++)
+                    // Заполняем данные, начиная с последней пустой ячейки
+                    for (int i = 0; i < dataRow.data.Count && lastColumnIndex + i < row.Cells.Count; i++)
                     {
-                        dataGridView1.Rows[currentRow].Cells[j + 1].Value = dataRow.data[j - lastColumnIndex];
+                        row.Cells[lastColumnIndex + i].Value = dataRow.data[i];
                     }
                 }
                 else
                 {
-                    dataGridView1.Rows.Add();
-                    dataGridView1.Rows[currentRow].Cells[0].Value = dataRow.numberRow;
+                    // Создаём новую строку
+                    row = new DataGridViewRow();
+                    row.CreateCells(dataGridView1);
+                    row.Cells[0].Value = dataRow.numberRow;
 
-                    if (currentRow == data.Count - 1)
+                    // Заполняем данные с начала (или с lastColumnIndex, если это продолжение)
+                    int startColumn = 1;
+                    for (int i = 0; i < dataRow.data.Count && startColumn + i < row.Cells.Count; i++)
                     {
-                        int l = 0;
+                        row.Cells[startColumn + i].Value = dataRow.data[i];
                     }
-                    for (int element = 0; element < dataRow.data.Count; element++)
-                    {
-                        dataGridView1.Rows[currentRow].Cells[element + 1].Value = dataRow.data[element];
-                    }
+
+                    dataGridView1.Rows.Add(row);
                 }
             }
+
+            dataGridView1.ResumeLayout();
         }
 
         private void FormClose(object sender, EventArgs e)
