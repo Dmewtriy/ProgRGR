@@ -153,7 +153,17 @@ namespace ProgRGR
                 {
                     _fileController.Close();
                 }
+
+        private void Content_Click(object sender, EventArgs e)
+        {
+            string text = "Как пользоваться программой:\r\n\r\n1. Открытие файла  \r\n   - Нажмите \"Файл → Открыть\" (Ctrl+O)  \r\n   - Выберите файл для просмотра  \r\n\r\n2. Просмотр данных  \r\n   - Переключайтесь между HEX/Binary через меню \"Вид\"  \r\n   - Используйте колесо мыши или полосу прокрутки для навигации  \r\n\r\n3. Поиск  \r\n   - \"Правка → Найти\" (Ctrl+F) — поиск строки с указанным адресом  \r\n   - Поддерживаются HEX и Binary строки\r\n\r\nГорячие клавиши:  \r\n- Ctrl+O — открыть файл  \r\n- Ctrl+F — поиск  \r\n- Ctrl+Q — выход  \r\n- Ctrl+Shift+H/B — переключить вид (HEX/Binary)  \r\n";
+            MessageBox.Show(text, "Справка по использованию", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
+        private void About_Click(object sender, EventArgs e)
+        {
+            string text = "Программа для просмотра файлов в шестнадцатеричном (HEX) и двоичном (Binary) формате.\r\n\r\nВозможности:\r\n- Открытие файлов любого типа\r\n- Просмотр содержимого в HEX/Binary\r\n\r\nАвторы: Dmewtiy, Tairchik  \r\nВерсия: 1.0  \r\n\r\nGitHub: [ссылка на репозиторий, если есть]  \r\nКонтакты: [email/сайт]  ";
+            MessageBox.Show(text, "Hex/Binary File Viewer v1.0", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
