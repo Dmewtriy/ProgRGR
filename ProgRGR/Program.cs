@@ -12,7 +12,7 @@ namespace ProgRGR
             // see https://aka.ms/applicationconfiguration.
             FormController formController = new FormController();
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1(formController));
+            Application.Run(new BinaryViewer(formController));
 
         }
     }

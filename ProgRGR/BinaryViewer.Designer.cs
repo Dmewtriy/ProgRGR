@@ -2,7 +2,7 @@
 
 namespace ProgRGR
 {
-    partial class Form1
+    partial class BinaryViewer
     {
         /// <summary>
         ///  Required designer variable.

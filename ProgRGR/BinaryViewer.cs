@@ -1,10 +1,10 @@
 ﻿namespace ProgRGR
 {
-    public partial class Form1 : Form
+    public partial class BinaryViewer : Form
     {
         private readonly FormController _formController;
         private bool flag = true;
-        public Form1(FormController controller)
+        public BinaryViewer(FormController controller)
         {
             InitializeComponent();
             InitializeHotkeys();
