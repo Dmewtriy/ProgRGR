@@ -184,7 +184,7 @@
 
         private void ViewClick(int numberBase)
         {
-            if (_formController.SelectedView != numberBase)
+            if (_formController.SelectedView != numberBase && _formController.openedFile != string.Empty)
             {
                 _formController.SelectedView = numberBase;
                 dataGridView1.Rows.Clear();
@@ -208,7 +208,7 @@
 
         private void About_Click(object sender, EventArgs e)
         {
-            string text = "Программа для просмотра файлов в шестнадцатеричном (HEX) и двоичном (Binary) формате.\r\n\r\nВозможности:\r\n- Открытие файлов любого типа\r\n- Просмотр содержимого в HEX/Binary\r\n\r\nАвторы: Dmewtiy, Tairchik  \r\nВерсия: 1.0  \r\n\r\nGitHub: [ссылка на репозиторий, если есть]  \r\nКонтакты: [email/сайт]  ";
+            string text = "Программа для просмотра файлов в шестнадцатеричном (HEX) и двоичном (Binary) формате.\r\n\r\nВозможности:\r\n- Открытие файлов любого типа\r\n- Просмотр содержимого в HEX/Binary\r\n\r\nАвторы: Dmewtiy, Tairchik  \r\nВерсия: 1.0  \r\n\r\nGitHub: https://github.com/Dmewtriy/ProgRGR.git  ";
             MessageBox.Show(text, "Hex/Binary File Viewer v1.0", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
