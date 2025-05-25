@@ -1,9 +1,9 @@
-namespace ProgRGR
+﻿namespace ProgRGR
 {
     public partial class Form1 : Form
     {
         private readonly FormController _formController;
-        private FileController _fileController;
+        private bool flag = true;
         public Form1(FormController controller)
         {
             InitializeComponent();
@@ -16,10 +16,10 @@ namespace ProgRGR
         {
             if (_formController.OpenFile())
             {
-            dataGridView1.Rows.Clear();
+                dataGridView1.Rows.Clear();
                 DisplayData(_formController.SelectedView);
                 flag = true;
-        }
+            }
         }
 
         private void DisplayData(int view)
@@ -29,13 +29,8 @@ namespace ProgRGR
             string numberRow = Convert.ToString(lastRow, view).PadLeft(10, '0').ToUpper() + "0";
             if (data.Count == 0)
                 return;
-            
+
             dataGridView1.SuspendLayout();
-
-            List<DataRow> data = _fileController.GetDataHex(lastRow, lastColumnIndex);
-            int currentRow;
-
-            if (data.Count == 0) return;
 
             foreach (var dataRow in data)
             {
@@ -78,7 +73,7 @@ namespace ProgRGR
 
         private void FormClose(object sender, EventArgs e)
         {
-            DialogResult res = MessageBox.Show("�� ������������� ������ ������� ����������?", "����� �� ����������", MessageBoxButtons.YesNo);
+            DialogResult res = MessageBox.Show("Вы действительно хотите закрыть приложение?", "Выход из приложения", MessageBoxButtons.YesNo);
             if (res == DialogResult.Yes)
             {
                 Close();
@@ -104,28 +99,26 @@ namespace ProgRGR
 
         private double GetVerticalScrollPercentage()
         {
-            // ���� ��� �����, ���������� 0
+            // Если нет строк, возвращаем 0
             if (dataGridView1.RowCount == 0)
                 return 0;
 
-            // ���� ������ ��� ������ (��� ������������� � �������), ���������� 0
+            // Если видимы все строки (нет необходимости в скролле), возвращаем 0
             if (dataGridView1.DisplayedRowCount(true) >= dataGridView1.RowCount)
                 return 0;
 
-            // �������� ������� ������� �������
+            // Получаем текущую позицию скролла
             int scrollOffset = dataGridView1.FirstDisplayedScrollingRowIndex;
 
-            // ����� ���������� �����, ������� ����� ����������
+            // Общее количество строк, которые можно прокрутить
             int scrollRange = dataGridView1.RowCount - dataGridView1.DisplayedRowCount(true);
 
-            // ��������� ������� ���������
+            // Вычисляем процент прокрутки
             double percentage = (double)scrollOffset / scrollRange * 100;
 
-            // ��������� �� 2 ������ ����� �������
+            // Округляем до 2 знаков после запятой
             return Math.Round(percentage, 2);
         }
-
-        private bool flag = true;
         private void dataGridView1_Scroll(object sender, ScrollEventArgs e)
         {
             if (e.ScrollOrientation == ScrollOrientation.VerticalScroll)
@@ -134,7 +127,7 @@ namespace ProgRGR
                 if (scrollPercentage > 70 && flag == true)
                 {
                     int count = dataGridView1.Rows.Count;
-                    DisplayData();
+                    DisplayData(_formController.SelectedView);
 
                     if (count == dataGridView1.Rows.Count)
                     {
@@ -143,14 +136,75 @@ namespace ProgRGR
                 }
                 if (flag == false)
                 {
-                    _fileController.Close();
+                    _formController.Close();
                 }
+            }
+        }
+
+        private void ShowError(string message)
+        {
+            MessageBox.Show(message);
+        }
+
+        private (int, int) GetLastRowAndColumnIndex()
+        {
+            int lastRow = dataGridView1.Rows.GetLastRow(DataGridViewElementStates.Visible);
+            int lastColumnIndex;
+            if (lastRow == -1)
+            {
+                lastColumnIndex = 0;
+                lastRow = 0;
+            }
+            else
+            {
+                var row = dataGridView1.Rows[lastRow];
+                lastColumnIndex = -1;
+                for (int col = 0; col < dataGridView1.Columns.Count; col++)
+                {
+                    if (row.Cells[col].Value == null)
+                    {
+                        lastColumnIndex = col - 1;
+                        break;
+                    }
+                }
+            }
+
+            return (lastRow, lastColumnIndex);
+        }
+
+        private void HexView_Click(object sender, EventArgs e)
+        {
+            ViewClick(16);
+        }
+
+        private void BinView_Click(object sender, EventArgs e)
+        {
+            ViewClick(2);
+        }
+
+        private void ViewClick(int numberBase)
+        {
+            if (_formController.SelectedView != numberBase)
+            {
+                _formController.SelectedView = numberBase;
+                dataGridView1.Rows.Clear();
+                _formController.Close();
+                _formController.OpenFile(_formController.openedFile);
+                DisplayData(_formController.SelectedView);
+                flag = true;
+            }
+        }
+        private void StringFindTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+                PerformSearch();
+        }
 
         private void Content_Click(object sender, EventArgs e)
         {
             string text = "Как пользоваться программой:\r\n\r\n1. Открытие файла  \r\n   - Нажмите \"Файл → Открыть\" (Ctrl+O)  \r\n   - Выберите файл для просмотра  \r\n\r\n2. Просмотр данных  \r\n   - Переключайтесь между HEX/Binary через меню \"Вид\"  \r\n   - Используйте колесо мыши или полосу прокрутки для навигации  \r\n\r\n3. Поиск  \r\n   - \"Правка → Найти\" (Ctrl+F) — поиск строки с указанным адресом  \r\n   - Поддерживаются HEX и Binary строки\r\n\r\nГорячие клавиши:  \r\n- Ctrl+O — открыть файл  \r\n- Ctrl+F — поиск  \r\n- Ctrl+Q — выход  \r\n- Ctrl+Shift+H/B — переключить вид (HEX/Binary)  \r\n";
             MessageBox.Show(text, "Справка по использованию", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+        }
 
         private void About_Click(object sender, EventArgs e)
         {
