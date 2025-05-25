@@ -30,7 +30,7 @@ namespace ProgRGR
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             menuStrip1 = new MenuStrip();
             File = new ToolStripMenuItem();
             OpenFile = new ToolStripMenuItem();
@@ -111,6 +111,7 @@ namespace ProgRGR
             HexView.ShortcutKeys = Keys.Control | Keys.Shift | Keys.H;
             HexView.Size = new Size(297, 30);
             HexView.Text = "16-ичный";
+            HexView.Click += HexView_Click;
             // 
             // BinView
             // 
@@ -118,6 +119,7 @@ namespace ProgRGR
             BinView.ShortcutKeys = Keys.Control | Keys.Shift | Keys.B;
             BinView.Size = new Size(297, 30);
             BinView.Text = "2-ичный";
+            BinView.Click += BinView_Click;
             // 
             // Find
             // 
@@ -132,11 +134,12 @@ namespace ProgRGR
             // 
             StringFindTextBox.AutoToolTip = true;
             StringFindTextBox.BorderStyle = BorderStyle.FixedSingle;
-            StringFindTextBox.MaxLength = 10;
+            StringFindTextBox.MaxLength = 20;
             StringFindTextBox.Name = "StringFindTextBox";
             StringFindTextBox.Size = new Size(100, 23);
             StringFindTextBox.Text = "Ctrl+F";
             StringFindTextBox.ToolTipText = "\r\n";
+            StringFindTextBox.KeyPress += StringFindTextBox_KeyPress;
             StringFindTextBox.Click += StringFindTextBox_Click;
             // 
             // Help
@@ -151,12 +154,14 @@ namespace ProgRGR
             Content.Name = "Content";
             Content.Size = new Size(200, 30);
             Content.Text = "Содержание";
+            Content.Click += Content_Click;
             // 
             // About
             // 
             About.Name = "About";
             About.Size = new Size(200, 30);
             About.Text = "О программе";
+            About.Click += About_Click;
             // 
             // dataGridView1
             // 
@@ -164,16 +169,18 @@ namespace ProgRGR
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeColumns = false;
             dataGridView1.AllowUserToResizeRows = false;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridView1.BorderStyle = BorderStyle.Fixed3D;
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = SystemColors.Control;
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = SystemColors.Control;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Offset, value0, value1, value2, valeu3, value4, value5, value6, value7, value8, value9, valueA, valueB, valueC, valueD, valueE, valueF });
             dataGridView1.Location = new Point(12, 36);
@@ -185,16 +192,18 @@ namespace ProgRGR
             dataGridView1.RowTemplate.ReadOnly = true;
             dataGridView1.RowTemplate.Resizable = DataGridViewTriState.False;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.CellSelect;
-            dataGridView1.Size = new Size(1103, 574);
+            dataGridView1.Size = new Size(554, 574);
             dataGridView1.TabIndex = 1;
+            dataGridView1.ColumnWidthChanged += UpdateDataGridViewWidth;
             dataGridView1.Scroll += dataGridView1_Scroll;
             // 
             // Offset
             // 
+            Offset.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             Offset.HeaderText = "Адрес";
             Offset.Name = "Offset";
             Offset.ReadOnly = true;
-            Offset.Resizable = DataGridViewTriState.False;
+            Offset.Resizable = DataGridViewTriState.True;
             Offset.SortMode = DataGridViewColumnSortMode.NotSortable;
             Offset.Width = 53;
             // 
@@ -373,37 +382,61 @@ namespace ProgRGR
             {
                 Find.PerformClick();
                 e.Handled = true;
+                return;
             }
             if (e.Control && e.KeyCode == Keys.Q)
             {
                 this.Close();
                 e.Handled = true;
+                return;
             }
             // Сдвиг изображения на одну строку
             if (e.KeyCode == Keys.Down)
             {
-                if (dataGridView1.FirstDisplayedScrollingRowIndex < dataGridView1.RowCount && dataGridView1.Rows.Count != 0)
+                if (dataGridView1.FirstDisplayedScrollingRowIndex + 1 < dataGridView1.RowCount && dataGridView1.Rows.Count != 0)
                     dataGridView1.FirstDisplayedScrollingRowIndex++;
                 e.Handled = true;
+                return;
             }
             if (e.KeyCode == Keys.Up)
             {
                 if (dataGridView1.FirstDisplayedScrollingRowIndex > 0 && dataGridView1.Rows.Count != 0)
                     dataGridView1.FirstDisplayedScrollingRowIndex--;
                 e.Handled = true;
+                return;
             }
             // Сдвиг изображения на одну страницу
             if (e.KeyCode == Keys.PageDown)
             {
-                if (dataGridView1.FirstDisplayedScrollingRowIndex + 61 < dataGridView1.RowCount && dataGridView1.Rows.Count != 0)
-                    dataGridView1.FirstDisplayedScrollingRowIndex+=62;
+                if (dataGridView1.Rows.Count != 0)
+                {
+                    if (dataGridView1.FirstDisplayedScrollingRowIndex + 21 < dataGridView1.RowCount)
+                    {
+                        dataGridView1.FirstDisplayedScrollingRowIndex += 22;
+                    }
+                    else
+                    {
+                        dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
+                    }
+                }  
                 e.Handled = true;
+                return;
             }
             if (e.KeyCode == Keys.PageUp)
             {
-                if (dataGridView1.FirstDisplayedScrollingRowIndex - 61 > 0 && dataGridView1.Rows.Count != 0)
-                    dataGridView1.FirstDisplayedScrollingRowIndex-=62;
+                if (dataGridView1.Rows.Count != 0)
+                {
+                    if (dataGridView1.FirstDisplayedScrollingRowIndex - 21 > 0)
+                    {
+                        dataGridView1.FirstDisplayedScrollingRowIndex -= 22;
+                    }
+                    else
+                    {
+                        dataGridView1.FirstDisplayedScrollingRowIndex = 0;
+                    }
+                }
                 e.Handled = true;
+                return;
             }
             // Отображение первой страницы
             if (e.KeyCode == Keys.Home)
@@ -411,14 +444,17 @@ namespace ProgRGR
                 if (dataGridView1.Rows.Count != 0)
                     dataGridView1.FirstDisplayedScrollingRowIndex = 0;
                 e.Handled = true;
+                return;
             }
             // Отображение последней страницы
             if (e.KeyCode == Keys.End)
             {
                 if (dataGridView1.Rows.Count != 0)
-                    dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount-1;
+                    dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
                 e.Handled = true;
+                return;
             }
+        }
 
 
         private void PerformSearch()
