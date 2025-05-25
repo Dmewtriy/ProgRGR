@@ -419,6 +419,42 @@ namespace ProgRGR
                     dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount-1;
                 e.Handled = true;
             }
+
+
+        private void PerformSearch()
+        {
+            string textToFind = StringFindTextBox.Text.Trim();
+            bool found = false;
+            dataGridView1.ClearSelection();
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                if (row.Cells[0].Value?.ToString().Equals(textToFind) ?? false)
+                {
+                    // Устанавливаем текущую ячейку (опционально)
+                    dataGridView1.CurrentCell = row.Cells[0];
+
+                    // Прокручиваем таблицу к найденной строке
+                    dataGridView1.FirstDisplayedScrollingRowIndex = row.Index;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found && !string.IsNullOrEmpty(textToFind))
+            {
+                MessageBox.Show("Строка не найдена", "Поиск", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void UpdateDataGridViewWidth(object sender, EventArgs e)
+        {
+            // Вычисляем ширину всех столбцов + отступы + скроллбар (если есть)
+            int totalWidth = dataGridView1.Columns.GetColumnsWidth(DataGridViewElementStates.Visible) +
+                            dataGridView1.Margin.Horizontal +
+                            SystemInformation.VerticalScrollBarWidth;
+
+            // Устанавливаем новую ширину
+            dataGridView1.Width = totalWidth;
         }
 
         #endregion
