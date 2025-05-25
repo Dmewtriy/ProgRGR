@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BinaryViewer
 {
     public class FileManager
     {
         private FileStream reader;
-        private List<Page> buffer = new List<Page>();
-        private int size;
+        private readonly List<Page> buffer = new List<Page>();
+        private readonly int size;
 
         public FileManager(int size = 1000)
         {
@@ -23,7 +19,7 @@ namespace BinaryViewer
         public void Open(string path)
         {
             CloseFile();
-            
+
             reader = new FileStream(path, FileMode.Open, FileAccess.Read);
         }
 

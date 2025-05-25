@@ -55,7 +55,15 @@
 
         public List<DataRow> GetData(int row, int column, int view)
         {
-            return fileController.GetDataHex(row, column, view);
+            try
+            {
+                return fileController.GetDataHex(row, column, view);
+            }
+            catch (Exception ex)
+            {
+                Errors?.Invoke(ex.Message);
+                return new List<DataRow>();
+            }
         }
 
         public void Close()
