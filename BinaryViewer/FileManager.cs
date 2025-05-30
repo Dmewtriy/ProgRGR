@@ -13,6 +13,11 @@ namespace BinaryViewer
 
         public FileManager(int size = 1000)
         {
+            if (size <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(size), "Размер страницы должен быть положительным числом.");
+            }
+
             this.size = size;
         }
 
@@ -20,12 +25,23 @@ namespace BinaryViewer
         {
             CloseFile();
 
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"Файл '{path}' не найден.");
+            }
+
             reader = new FileStream(path, FileMode.Open, FileAccess.Read);
         }
 
-        public byte[] GetNewPage() 
+        public byte[] GetNewPage()
         {
+            if (reader == null || !reader.CanRead)
+            {
+                throw new InvalidOperationException("Файл не открыт");
+            }
+
             int lastLen = buffer.Count;
+
             if (buffer.Count == 0)
             {
                 ReadAndPushToBuffer(0);
@@ -34,42 +50,37 @@ namespace BinaryViewer
             {
                 Page lastPage = buffer.Last();
                 ReadAndPushToBuffer(lastPage.Index + 1);
-
             }
+
             if (lastLen != buffer.Count)
             {
                 return buffer.Last().Data;
             }
+
             return new byte[] { };
         }
 
         private void ReadAndPushToBuffer(long index)
         {
-            if (reader == null || reader.CanRead == false)
+            if (reader == null || !reader.CanRead)
             {
-                throw new Exception("Файл не открыт");
+                throw new InvalidOperationException("Файл не открыт");
             }
-            if (size * (index + 1) <= reader.Length)
+
+            long position = index * size;
+            if (position >= reader.Length)
             {
-                byte[] data = new byte[size];
-
-                reader.Seek(index * size, SeekOrigin.Begin);
-                reader.Read(data, 0, size);
-
-                Page page = new Page(data, index);
-                buffer.Add(page);
+                return;
             }
-            else if (size * index <= reader.Length)
-            {
-                int tempSize = (int)reader.Length % size;
-                byte[] data = new byte[tempSize];
 
-                reader.Seek(index * size, SeekOrigin.Begin);
-                reader.Read(data, 0, tempSize);
+            int remaining = (int)Math.Min(size, reader.Length - position);
+            byte[] data = new byte[remaining];
 
-                Page page = new Page(data, index);
-                buffer.Add(page);
-            }
+            reader.Seek(position, SeekOrigin.Begin);
+            reader.Read(data, 0, remaining);
+
+            Page page = new Page(data, index);
+            buffer.Add(page);
         }
 
         public void CloseFile()
@@ -77,6 +88,7 @@ namespace BinaryViewer
             if (reader != null)
             {
                 reader.Close();
+                reader = null;
                 buffer.Clear();
             }
         }
